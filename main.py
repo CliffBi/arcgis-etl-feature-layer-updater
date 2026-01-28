@@ -1,16 +1,20 @@
-# This is a sample Python script.
+import os
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from app.spreadsheet.connector import GidSpreadsheetConnector, SpreadsheetConnector
+from app.spreadsheet.provider import SpreadSheetProvider, SpreadSheetByGidProvider
+from app.spreadsheet.services import SpreadsheetServiceByGid, SpreadsheetService
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    spreadsheet_id = os.getenv('OUTPUT_DATA_SPREADSHEET_ID')
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    # Gid
+    gid_provider = SpreadSheetByGidProvider()
+    gid_service = SpreadsheetServiceByGid(provider=gid_provider)
+    gid_connector = GidSpreadsheetConnector(spreadsheet_id=spreadsheet_id, spreadsheet_service=gid_service)
+    a = gid_connector.zero_sheet
+
+    # Name
+    provider = SpreadSheetProvider()
+    service = SpreadsheetService(provider=provider)
+    connector = SpreadsheetConnector(spreadsheet_id=spreadsheet_id, spreadsheet_service=service)
+    c = connector.data_sheet
