@@ -1,6 +1,8 @@
 import json
 from abc import ABC
 
+import pandas as pd
+
 from app.exceptions import SheetSchemaMismatchError
 from app.settings import SHEET_FORMAT_PATH, SHEET_FORMAT_BY_GID_PATH
 from app.spreadsheet.provider import AbsSpreadsheetProvider
@@ -21,7 +23,7 @@ class AbsSpreadsheetService(ABC):
                 self._sheet_formats = json.load(f)
         return self._sheet_formats
 
-    def read_sheet_data(self, spreadsheet_id, sheet_name):
+    def read_sheet_data(self, spreadsheet_id: str, sheet_name: str) -> pd.DataFrame:
         if sheet_name not in self.sheet_formats:
             raise KeyError(f"{sheet_name} doesnt' exist in sheet_format config file.")
 
@@ -44,7 +46,7 @@ class SpreadsheetService(AbsSpreadsheetService):
         super().__init__(**kwargs)
 
 
-class SpreadsheetServiceByGid(AbsSpreadsheetService):
+class GidSpreadsheetService(AbsSpreadsheetService):
     def __init__(self, **kwargs):
         self.sheet_format_path = SHEET_FORMAT_BY_GID_PATH
         super().__init__(**kwargs)
