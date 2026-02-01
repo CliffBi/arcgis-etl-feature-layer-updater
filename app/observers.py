@@ -1,9 +1,13 @@
+import logging
+
 from arcgis.features import Feature, FeatureSet
 
 from app.arcgis.provider import ArcGisProvider
 from app.columns import data_table_columns
 from app.settings import SPATIAL_REFERENCE_WKID
 from app.spreadsheet.connector import SpreadsheetConnector, GidSpreadsheetConnector
+
+logger = logging.getLogger(__name__)
 
 
 class TLayerObserver:
@@ -16,6 +20,7 @@ class TLayerObserver:
         self.gis_provider = gis_provider
 
     def update_t_layer(self) -> None:
+        logger.info('Start updating data to t_layer.')
         add_features = []
         update_features = []
 
@@ -69,7 +74,11 @@ class TLayerObserver:
         adds_fs = FeatureSet(features=add_features) if add_features else None
         updates_fs = FeatureSet(features=update_features) if update_features else None
 
+        logger.info(f'Items number to add: {len(adds_fs) if adds_fs else None}')
+        logger.info(f'Items number to update: {len(updates_fs) if updates_fs else None}')
+
         self.gis_provider.upload(adds_fs, updates_fs)
+        logger.info('Finish updating data to t_layer.')
 
 
 class GidTLayerObserver:
@@ -82,6 +91,7 @@ class GidTLayerObserver:
         self.gis_provider = gis_provider
 
     def update_t_layer(self) -> None:
+        logger.info('Start updating data to t_layer.')
         add_features = []
         update_features = []
 
@@ -135,4 +145,8 @@ class GidTLayerObserver:
         adds_fs = FeatureSet(features=add_features) if add_features else None
         updates_fs = FeatureSet(features=update_features) if update_features else None
 
+        logger.info(f'Items number to add: {len(adds_fs) if adds_fs else None}')
+        logger.info(f'Items number to update: {len(updates_fs) if updates_fs else None}')
+
         self.gis_provider.upload(adds_fs, updates_fs)
+        logger.info('Finish updating data to t_layer.')

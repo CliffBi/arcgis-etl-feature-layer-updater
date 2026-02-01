@@ -1,5 +1,11 @@
 import os
 
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
 # Path to sheet format files
 SHEET_FORMAT_PATH = "sheet_formats/sheet_format.json"
 SHEET_FORMAT_BY_GID_PATH = "sheet_formats/sheet_format_by_gid.json"
@@ -15,3 +21,28 @@ GIS_PASSWORD = os.getenv('GIS_PASSWORD')
 GIS_ITEM_ID = os.getenv('GIS_ITEM_ID')
 
 SPATIAL_REFERENCE_WKID = 4326
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': '[%(asctime)s][%(levelname)s][%(name)s]: %(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        }
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'formatter': 'standard',
+            'class': 'logging.StreamHandler',
+        }
+    },
+    'loggers': {
+        '': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+}
+

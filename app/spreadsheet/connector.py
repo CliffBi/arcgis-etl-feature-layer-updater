@@ -12,6 +12,9 @@ class AbsSpreadsheetConnector(ABC):
 
 
 class SpreadsheetConnector(AbsSpreadsheetConnector):
+    """
+    Current class is responsible for gathering information from 'Вихідні дані' file.
+    """
     def __init__(self, **kwargs):
         self._data_sheet = pd.DataFrame()
         super().__init__(**kwargs)
@@ -26,6 +29,9 @@ class SpreadsheetConnector(AbsSpreadsheetConnector):
 
 
 class GidSpreadsheetConnector(AbsSpreadsheetConnector):
+    """
+    Current class is responsible for gathering information from 'Вихідні дані' file.
+    """
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self._zero_sheet = pd.DataFrame()
