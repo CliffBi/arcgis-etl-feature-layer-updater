@@ -33,7 +33,7 @@ class SpreadSheetProvider(AbsSpreadsheetProvider):
             rows = []
 
             for row in data_table["rows"]:
-                rows.append([cell.get("v") if cell else None for cell in row["c"]])
+                rows.append([cell.get("f", cell.get('v')) if cell else None for cell in row["c"]])
 
             return pd.DataFrame(rows, columns=columns)
 
@@ -47,7 +47,7 @@ class SpreadSheetProvider(AbsSpreadsheetProvider):
             raise SheetProviderError(e)
 
 
-class SpreadSheetByGidProvider(AbsSpreadsheetProvider):
+class GidSpreadSheetProvider(AbsSpreadsheetProvider):
     def get_sheet_data(self, spreadsheet_id: str, sheet_name: str) -> pd.DataFrame:
         try:
             return pd.read_csv(GOOGLE_SPREADSHEET_BY_GID_URL.format(spreadsheet_id, sheet_name))
