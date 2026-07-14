@@ -11,6 +11,13 @@ class ArcGisProviderUploadError(Exception):
     """
     pass
 
+#testsets
+#testsets2
+#testsets3
+#testsets4
+#testsets5
+#testsets6
+
 
 class ArcGisProviderDeleteError(Exception):
     """
